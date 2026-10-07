@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>حملة الحمادي — تطبيق الحاج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F6; --card:#FFFFFF; --ink:#1B0D13; --ink2:#5B4951; --mute:#8D7D84;
+  --brand:#7C1D3F; --brand-d:#5E1430; --brand-l:#F7EBEF; --brand-b:#EDD6DE;
+  --gold:#B48A3C; --gold-l:#FBF3E3; --line:#EBE7E8;
+  --ok:#2E7D5B; --ok-l:#E8F3EE; --warn:#B07A10; --bad:#B32B33; --bad-l:#FBECEC;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;height:100%}
+body{background:#DCD4D7;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:16px 10px;font-variant-numeric:tabular-nums}
+.stage{width:100%;max-width:430px}
+.note{text-align:center;font-size:12px;color:#7D7276;margin:0 0 10px}
+.app{position:relative;height:min(848px,calc(100dvh - 76px));border-radius:26px;overflow:hidden;
+  background:var(--bg);border:1px solid #CDC4C8;display:flex;flex-direction:column;
+  box-shadow:0 30px 60px -30px rgba(27,13,19,.45)}
+/* header */
+.hd{background:var(--brand);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;flex:none;
+  position:relative;overflow:hidden}
+.hd::after{content:'';position:absolute;width:190px;height:190px;border-radius:50%;
+  border:26px solid rgba(255,255,255,.055);top:-105px;left:-55px}
+.hd img{width:40px;height:40px;flex:none;position:relative}
+.hd .tx{flex:1;position:relative}
+.hd .k{font-size:11px;opacity:.78;letter-spacing:.05em}
+.hd .n{font-size:17px;font-weight:600;margin-top:1px}
+.hbtn{background:rgba(255,255,255,.14);border:0;width:38px;height:38px;border-radius:12px;cursor:pointer;
+  display:grid;place-items:center;position:relative;flex:none}
+.hbtn svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hbtn.av{background:#fff;color:var(--brand);font-family:inherit;font-weight:700;font-size:16px}
+.hbtn.sos{background:#fff}
+.hbtn.sos svg{stroke:var(--brand)}
+.hbtn .dot{position:absolute;top:7px;inset-inline-end:7px;width:8px;height:8px;border-radius:50%;
+  background:#FFC24A;border:1.5px solid var(--brand)}
+.sc{flex:1;overflow-y:auto;padding:14px 14px 22px}
+.sc::-webkit-scrollbar{width:0}
+/* cards */
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:11px}
+.c.flat{padding:4px 16px}
+.hero{background:linear-gradient(162deg,var(--brand) 0%,var(--brand-d) 100%);color:#fff;
+  border-radius:18px;padding:19px;margin-bottom:11px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;width:210px;height:210px;border-radius:50%;
+  border:26px solid rgba(255,255,255,.05);top:-86px;left:-56px}
+.hero>*{position:relative}
+.lb{font-size:12px;color:var(--mute);letter-spacing:.03em;margin:0 0 6px}
+.hero .lb{color:rgba(255,255,255,.72)}
+.vl{font-size:33px;font-weight:700;line-height:1.12;letter-spacing:-.02em}
+.vs{font-size:14px;margin-top:6px;line-height:1.65;color:var(--ink2)}
+.hero .vs{color:rgba(255,255,255,.85)}
+.rw{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tag{font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:8px;background:var(--brand-l);color:var(--brand)}
+.tag.a{background:var(--gold-l);color:#7E5E14}
+.tag.r{background:var(--bad-l);color:var(--bad)}
+.tag.g{background:var(--ok-l);color:var(--ok)}
+.tag.w{background:rgba(255,255,255,.17);color:#fff}
+.ring{display:flex;align-items:center;gap:15px}
+.ring svg{width:74px;height:74px;flex:none;transform:rotate(-90deg)}
+.ring .t{font-size:15.5px;font-weight:600}
+.ring .d{font-size:12.5px;color:var(--mute);margin-top:4px}
+.prof{background:linear-gradient(162deg,var(--brand) 0%,var(--brand-d) 100%);color:#fff;border-radius:18px;
+  padding:20px;text-align:center;position:relative;overflow:hidden;margin-bottom:11px}
+.prof::after{content:'';position:absolute;width:210px;height:210px;border-radius:50%;
+  border:26px solid rgba(255,255,255,.05);top:-90px;left:-56px}
+.prof>*{position:relative}
+.prof .pic{width:74px;height:74px;border-radius:50%;background:#fff;color:var(--brand);
+  display:grid;place-items:center;font-size:28px;font-weight:700;margin:0 auto 10px}
+.prof .nm{font-size:19px;font-weight:700}
+.prof .sb2{font-size:13px;color:rgba(255,255,255,.76);margin-top:4px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.kv:last-child{border:0}
+.kv .k2{font-size:13.5px;color:var(--mute)}
+.kv .v2{font-size:14.5px;font-weight:600;text-align:end}
+.sw{width:44px;height:26px;border-radius:99px;background:#DFD9DB;position:relative;flex:none;cursor:pointer;
+  transition:.2s}
+.sw::after{content:'';position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;
+  background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sw.on{background:var(--ok)}
+.sw.on::after{inset-inline-start:21px}
+.spir{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.sp{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:13px 4px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;font-size:11.5px;
+  font-weight:600;color:var(--ink)}
+.sp:active{background:var(--brand-l);border-color:var(--brand-b)}
+.sp svg{width:23px;height:23px;stroke:var(--brand);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.sp.g svg{stroke:var(--gold)}
+.twobtn{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.dh{font-size:18px;line-height:2.1;text-align:center;padding:4px 2px}
+.dh .cnt{display:inline-block;background:var(--brand-l);color:var(--brand);font-size:12.5px;
+  font-weight:700;padding:3px 10px;border-radius:999px;margin-inline-start:8px;vertical-align:middle}
+.pstrip{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px;position:relative}
+.pr{text-align:center;padding:9px 2px;border-radius:11px;background:rgba(255,255,255,.08)}
+.pr.past{opacity:.45}
+.pr.now{background:#fff;color:var(--brand)}
+.pr .nm{font-size:11.5px;font-weight:600}
+.pr .tmv{font-size:14px;font-weight:700;margin-top:3px;letter-spacing:-.01em}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px;
+  border-inline-start:4px solid var(--brand)}
+.lead .who{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.lead .who .av{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:grid;
+  place-items:center;font-size:12px;font-weight:700;flex:none}
+.lead .who .nm{font-size:13.5px;font-weight:600}
+.lead .who .tm{margin-inline-start:auto;font-size:11.5px;color:var(--mute)}
+.lead .tx{font-size:16.5px;font-weight:600;line-height:1.6}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.mn{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer;
+  text-align:start}
+.mn .k{font-size:11.5px;color:var(--mute)}
+.mn .t{font-size:14.5px;font-weight:600;margin-top:5px;line-height:1.45}
+.mn.hot{border-color:var(--brand-b);background:var(--brand-l)}
+.quick{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:11px}
+.qa{padding:11px 3px!important}
+.qa{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 5px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;font-size:11.5px;
+  font-weight:600;color:var(--ink);cursor:pointer}
+.qa:active{background:var(--brand-l)}
+.qa svg{width:22px;height:22px;stroke:var(--brand);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.qa.r svg{stroke:var(--bad)}.qa.r{color:var(--bad)}
+.it{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.it:last-child{border:0}
+.it .t{font-size:15.5px;font-weight:600}
+.it .d{font-size:12.5px;color:var(--mute);margin-top:3px}
+.it .go{margin-inline-start:auto;font-size:13px;color:var(--mute);font-weight:600;flex:none}
+.ic{width:36px;height:36px;border-radius:11px;background:var(--brand-l);display:grid;place-items:center;flex:none}
+.ic svg{width:19px;height:19px;stroke:var(--brand);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ic.a{background:var(--gold-l)}.ic.a svg{stroke:#7E5E14}
+.ic.r{background:var(--bad-l)}.ic.r svg{stroke:var(--bad)}
+.ic.g{background:var(--ok-l)}.ic.g svg{stroke:var(--ok)}
+.ic.n{background:#F2F0F1}.ic.n svg{stroke:#A79BA0}
+.tl{position:relative;padding-inline-start:26px}
+.tl::before{content:'';position:absolute;inset-inline-start:7px;top:12px;bottom:12px;width:2px;background:var(--line)}
+.tl .n{position:relative;padding:12px 0}
+.tl .n::before{content:'';position:absolute;inset-inline-start:-24px;top:17px;width:12px;height:12px;
+  border-radius:50%;background:#fff;border:2.5px solid #D6CDD1}
+.tl .n.done::before{background:var(--ok);border-color:var(--ok)}
+.tl .n.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px #B48A3C28}
+.tl .t{font-size:15.5px;font-weight:600}
+.tl .d{font-size:12.5px;color:var(--mute);margin-top:3px}
+.pass{background:linear-gradient(160deg,var(--brand) 0%,#3F0C21 100%);color:#fff;border-radius:18px;
+  padding:20px;text-align:center;position:relative;overflow:hidden}
+.pass img{width:44px;height:44px;opacity:.95}
+.pass .nm{font-size:19px;font-weight:700;margin-top:8px}
+.pass .mt{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:4px;letter-spacing:.04em}
+.qr{width:158px;height:158px;background:#fff;border-radius:12px;padding:11px;margin:15px auto 8px}
+.qr svg{width:100%;height:100%}
+.ayah{line-height:2.35;text-align:center;font-size:21px}
+.ayah b{color:var(--brand);font-size:.62em;font-weight:700}
+/* video */
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:11px}
+.thumb{height:132px;position:relative;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--brand),#3F0C21)}
+.thumb.g{background:linear-gradient(145deg,#2E7D5B,#174433)}
+.thumb.o{background:linear-gradient(145deg,#B48A3C,#6E5219)}
+.thumb::before{content:'';position:absolute;inset:0;opacity:.3;
+  background:radial-gradient(circle at 70% 20%, #ffffff33, transparent 55%)}
+.play{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.93);display:grid;
+  place-items:center;position:relative;box-shadow:0 8px 20px -8px #000}
+.play::after{content:'';border-style:solid;border-width:9px 14px 9px 0;
+  border-color:transparent var(--brand) transparent transparent;margin-inline-end:4px}
+.dur{position:absolute;bottom:9px;inset-inline-end:9px;background:rgba(0,0,0,.6);color:#fff;
+  font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:7px}
+.vmeta{padding:13px 14px}
+.vmeta .t{font-size:15.5px;font-weight:600}
+.vmeta .d{font-size:12.5px;color:var(--mute);margin-top:4px}
+.chipsrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+.chipsrow::-webkit-scrollbar{height:0}
+.chip{flex:none;background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:9px 15px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink2);cursor:pointer}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+/* chat */
+.chat{display:flex;flex-direction:column;gap:9px;padding:4px 0 10px}
+.msg{max-width:78%;padding:11px 13px;border-radius:15px;font-size:14.5px;line-height:1.6;position:relative}
+.msg .who{font-size:11.5px;font-weight:700;color:var(--brand);margin-bottom:3px}
+.msg .tm{font-size:10.5px;color:var(--mute);margin-top:5px}
+.msg.them{background:var(--card);border:1px solid var(--line);align-self:flex-start;border-start-start-radius:5px}
+.msg.me{background:var(--brand);color:#fff;align-self:flex-end;border-start-end-radius:5px}
+.msg.me .tm{color:rgba(255,255,255,.7)}
+.msg.pin{background:var(--gold-l);border:1px solid #EBDCBB;align-self:stretch;max-width:none}
+.msg.pin .who{color:#7E5E14}
+.cbar{display:flex;gap:8px;align-items:center;padding-top:8px;border-top:1px solid var(--line);margin-top:6px}
+.cbar input{flex:1;font-family:inherit;font-size:15px;padding:13px 14px;border:1px solid var(--line);
+  border-radius:13px;background:var(--card);color:var(--ink)}
+.cbar input:focus{outline:2px solid var(--brand-b);border-color:var(--brand)}
+.cbar button{background:var(--brand);border:0;width:46px;height:46px;border-radius:13px;cursor:pointer;
+  display:grid;place-items:center;flex:none}
+.cbar button svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* quiz */
+.q{font-size:20px;font-weight:600;line-height:1.6;margin:6px 0 16px}
+.op{width:100%;display:flex;align-items:center;gap:12px;text-align:start;font-family:inherit;font-size:16px;
+  font-weight:600;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;
+  margin-bottom:9px;cursor:pointer;color:var(--ink)}
+.op span{width:26px;height:26px;border-radius:8px;background:#F2F0F1;display:grid;place-items:center;
+  font-size:13px;color:var(--mute);flex:none}
+.op.ok{background:var(--ok-l);border-color:var(--ok)}.op.ok span{background:var(--ok);color:#fff}
+.op.no{background:var(--bad-l);border-color:#EEC9C9}.op.no span{background:var(--bad);color:#fff}
+.tmr{height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.tmr i{display:block;height:100%;background:var(--gold)}
+.rk{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rk .p{width:26px;height:26px;border-radius:8px;background:#F2F0F1;display:grid;place-items:center;
+  font-weight:700;font-size:13px;flex:none;color:var(--mute)}
+.rk .p.one{background:var(--gold);color:#fff}
+.rk .s{margin-inline-start:auto;font-weight:700;color:var(--brand)}
+.rk.me{background:var(--brand-l);border-radius:10px;padding-inline:10px;border-bottom:0}
+/* nav */
+.nv{flex:none;display:grid;grid-template-columns:repeat(5,1fr);background:var(--card);
+  border-top:1px solid var(--line);padding:7px 2px calc(7px + env(safe-area-inset-bottom,0px))}
+.nv button{background:none;border:0;font-family:inherit;font-size:11px;font-weight:600;color:#A79BA0;
+  display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 1px;cursor:pointer;position:relative}
+.nv svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nv button.on{color:var(--brand)}
+.nv button.on::before{content:'';position:absolute;top:-8px;width:22px;height:3px;border-radius:99px;background:var(--brand)}
+.bdg{position:absolute;top:1px;inset-inline-start:12px;background:var(--bad);color:#fff;font-size:9.5px;
+  font-weight:700;min-width:16px;height:16px;border-radius:99px;display:grid;place-items:center;padding:0 4px}
+.bk{background:none;border:0;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--brand);
+  padding:2px 0 12px;cursor:pointer}
+.sh{display:flex;align-items:baseline;justify-content:space-between;margin:16px 3px 9px}
+.sh h3{margin:0;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.sh em{font-style:normal;font-size:12px;color:var(--mute)}
+.ts{position:absolute;inset:auto 16px 88px 16px;background:var(--ink);color:#fff;padding:14px;
+  border-radius:13px;font-weight:600;font-size:14.5px;text-align:center;opacity:0;transform:translateY(8px);
+  transition:.2s;pointer-events:none;z-index:9}
+.ts.on{opacity:1;transform:none}
+.mt{font-size:11.5px;color:var(--mute);text-align:center;margin-top:11px}
+.btn{width:100%;background:var(--brand);color:#fff;border:0;font-family:inherit;font-weight:600;
+  font-size:15.5px;padding:15px;border-radius:14px;cursor:pointer}
+.btn.g{background:#F2F0F1;color:var(--ink)}
+.btn.o{background:var(--gold)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <p class="note">حملة الحمادي · نموذج تفاعلي</p>
+  <div class="app">
+    <div class="hd">
+      <img id="lg" alt="">
+      <div class="tx"><div class="k">حملة الحمادي · موسم ١٤٤٧</div><div class="n">عبدالله الكواري</div></div>
+      <button class="hbtn av" onclick="go('me')" title="حسابي">ع</button>
+      <button class="hbtn" onclick="go('inbox')" title="الإشعارات">
+        <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/></svg><span class="dot"></span></button>
+      <button class="hbtn sos" onclick="go('emg')" title="نجدة">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg></button>
+    </div>
+    <div class="sc" id="sc"></div>
+    <div class="ts" id="ts"></div>
+    <nav class="nv">
+      <button class="on" data-t="home" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>الرئيسية</button>
+      <button data-t="trip" onclick="go('trip')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18M7 21v-2M17 21v-2"/></svg>رحلتي</button>
+      <button data-t="guide" onclick="go('guide')"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M9 8h6M9 12h6"/></svg>العبادة</button>
+      <button data-t="act" onclick="go('act')"><svg viewBox="0 0 24 24"><path d="M12 3 14.5 9 21 9.5l-5 4.2 1.6 6.3L12 16.7 6.4 20l1.6-6.3-5-4.2L9.5 9z"/></svg>الأنشطة<span class="bdg">!</span></button>
+      <button data-t="me" onclick="go('me')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>الملف</button>
+    </nav>
+  </div>
+</div>
+<script>
+const LOGO_W='data:image/png;base64,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';
+const LOGO_M='data:image/png;base64,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';
+
+document.getElementById('lg').src=LOGO_W;
+const ar=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const qr=()=>{let s='';for(let y=0;y<21;y++)for(let x=0;x<21;x++){
+  const e=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);
+  const on=e?((x===0||x===6||y===0||y===6||(x>1&&x<5&&y>1&&y<5))?1:0):((x*3+y*17+((x*y)%4))%3===0?1:0);
+  if(on)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}
+  return `<svg viewBox="0 0 21 21" shape-rendering="crispEdges">${s}</svg>`};
+const ring=(p,c)=>`<svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="#EFEBEC" stroke-width="4"/>
+  <circle cx="18" cy="18" r="15.5" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"
+   stroke-dasharray="${(p*97.4/100).toFixed(1)} 97.4"/>
+  <text x="18" y="18" transform="rotate(90 18 18)" text-anchor="middle" dominant-baseline="central"
+   font-size="9" font-weight="700" fill="#1B0D13" font-family="IBM Plex Sans Arabic">${ar(p)}٪</text></svg>`;
+const IC={
+ card:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h4M7 14h8"/></svg>',
+ bus:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18M7 21v-2M17 21v-2"/></svg>',
+ day:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>',
+ sos:'<svg viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>',
+ rite:'<svg viewBox="0 0 24 24"><path d="M5 20V9l7-5 7 5v11z"/><path d="M9 20v-6h6v6"/></svg>',
+ quran:'<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M12 7v9M9 10h6"/></svg>',
+ clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ comp:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9.5 9.5 14 14"/></svg>',
+ doc:'<svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4M9 13h6M9 17h4"/></svg>',
+ home:'<svg viewBox="0 0 24 24"><path d="M4 10 12 4l8 6v10H4z"/></svg>',
+ bell:'<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/></svg>',
+ chat:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 1 1-3.1-6.3L21 4l-1 4.2A7.9 7.9 0 0 1 21 12z"/><path d="M8 11h8M8 15h5"/></svg>',
+ quiz:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3 2.5v1M12 17h.01"/></svg>',
+ vid:'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>',
+ send:'<svg viewBox="0 0 24 24"><path d="M21 3 3 10l7 3 3 7z"/></svg>',
+ dhikr:'<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="18" cy="9" r="1.6"/><circle cx="19" cy="15" r="1.6"/><circle cx="14" cy="19" r="1.6"/><circle cx="8" cy="19" r="1.6"/><circle cx="5" cy="15" r="1.6"/><circle cx="6" cy="9" r="1.6"/></svg>',
+ dua:'<svg viewBox="0 0 24 24"><path d="M8 21V11a2 2 0 0 1 4 0M12 11V8a2 2 0 0 1 4 0v3M16 11a2 2 0 0 1 4 0v4a6 6 0 0 1-6 6H9"/></svg>',
+ money:'<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>',
+ list:'<svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>'};
+const PRAY=[['الفجر',4,38],['الظهر',12,20],['العصر',15,28],['المغرب',18,54],['العشاء',20,24]];
+function nextPray(){const n=new Date(),m=n.getHours()*60+n.getMinutes();
+  for(const p of PRAY){const t=p[1]*60+p[2];if(t>m)return[p,t-m]}
+  return[PRAY[0],(24*60-m)+PRAY[0][1]*60+PRAY[0][2]]}
+function tick(){const el=document.getElementById('cd');if(!el)return;
+  const[p,left]=nextPray(),s=60-new Date().getSeconds();
+  el.textContent=`${p[0]} بعد ${ar(Math.floor(left/60))}:${ar(String(left%60).padStart(2,'0'))}:${ar(String(s).padStart(2,'0'))}`}
+setInterval(tick,1000);
+
+/* ---------- chat state ---------- */
+const CHATS={
+ bus:{name:'مجموعة باص ٧',sub:'٤٨ عضواً · القائد سعد العتيبي',msgs:[
+  {w:'سعد العتيبي — القائد',t:'السلام عليكم، التجمع اليوم ٤:٣٠ عند البوابة الشمالية. الرجاء الحضور قبلها بعشر دقائق.',m:'٢:٠٥ م',k:'pin'},
+  {w:'خالد المري',t:'جزاك الله خير يا أبو فهد',m:'٢:١١ م',k:'them'},
+  {w:'',t:'إن شاء الله نكون قبل الموعد',m:'٢:١٤ م',k:'me'},
+  {w:'سعد العتيبي — القائد',t:'لا تنسون المظلة والماء، الجو حار اليوم',m:'٣:٤٠ م',k:'them'}]},
+ camp:{name:'مجموعة الحملة العامة',sub:'٣٢٠ حاجاً · للإعلانات فقط',msgs:[
+  {w:'إدارة الحملة',t:'التوجه إلى عرفة غداً بعد صلاة الفجر مباشرة. كل باص مع قائده.',m:'١:٢٠ م',k:'pin'},
+  {w:'إدارة الحملة',t:'درس الليلة ٨:٠٠ في مخيم الحملة — فضل يوم عرفة',m:'١١:٠٥ ص',k:'them'}]},
+ room:{name:'مجموعة غرفة ٣١٢',sub:'٣ أعضاء',msgs:[
+  {w:'محمد الكواري',t:'أنا بالحرم، بأتأخر شوي',m:'٣:٠٢ م',k:'them'},
+  {w:'',t:'خذ راحتك، أجهز الشنط',m:'٣:٠٤ م',k:'me'}]}};
+let openChat='bus';
+
+const V={
+home:()=>{const[p]=nextPray();const now=new Date(),m=now.getHours()*60+now.getMinutes();return`
+  <div class="hero">
+    <div class="rw"><p class="lb">مواقيت اليوم · مكة المكرمة</p><span class="tag w">١٢ ذو الحجة</span></div>
+    <div class="vl" style="font-size:27px">${p[0]} · ${ar(p[1]>12?p[1]-12:p[1])}:${ar(String(p[2]).padStart(2,'0'))}</div>
+    <div class="vs" id="cd">—</div>
+    <div class="pstrip" onclick="go('pray')">
+      ${PRAY.map(x=>{const t=x[1]*60+x[2];const cls=t<m?'past':(x[0]===p[0]?'now':'');
+        return `<div class="pr ${cls}"><div class="nm">${x[0]}</div>
+          <div class="tmv">${ar(x[1]>12?x[1]-12:x[1])}:${ar(String(x[2]).padStart(2,'0'))}</div></div>`}).join('')}
+    </div>
+  </div>
+
+  <div class="spir">
+    <button class="sp" onclick="go('quran')">${IC.quran}القرآن</button>
+    <button class="sp" onclick="go('dhikr')">${IC.dhikr}الأذكار</button>
+    <button class="sp" onclick="go('duas')">${IC.dua}الأدعية</button>
+    <button class="sp g" onclick="go('qibla')">${IC.comp}القبلة</button>
+    <button class="sp" onclick="go('rites')">${IC.rite}المناسك</button>
+  </div>
+
+  <div class="lead" onclick="oc('bus')">
+    <div class="who"><span class="av">س</span>
+      <div><div class="nm">سعد العتيبي · قائد باص ٧</div></div>
+      <span class="tm">قبل ١٢ دقيقة</span></div>
+    <div class="tx">التحرك بعد عشر دقائق — التجمع عند البوابة الشمالية</div>
+    <div class="rw" style="margin-top:11px">
+      <span class="tag r">رسالتان جديدتان</span>
+      <span class="go" style="color:var(--brand);font-weight:600;font-size:13px">فتح المجموعة ›</span></div>
+  </div>
+
+  <div class="sh"><h3>جدول اليوم</h3><em onclick="go('today')" style="color:var(--brand);font-weight:600">الكل ›</em></div>
+  <div class="c" style="border-color:var(--brand-b)">
+    <div class="rw" style="margin-bottom:4px"><p class="lb" style="margin:0">الأربعاء ١٢ ذو الحجة</p>
+      <span class="tag a">التالي بعد ٥٨ د</span></div>
+    <div class="tl" style="margin-top:8px">
+      <div class="n done"><div class="t">الفجر في الحرم</div><div class="d">٤:٤٠ · حضرت</div></div>
+      <div class="n done"><div class="t">إفطار المخيم</div><div class="d">٦:٣٠ · حضرت</div></div>
+      <div class="n now"><div class="t">التوجه إلى منى · ٤:٣٠</div>
+        <div class="d">باص ٧ · البوابة الشمالية — دار النور</div></div>
+      <div class="n"><div class="t">درس المساء</div><div class="d">٨:٠٠ مساءً · مخيم الحملة</div></div>
+    </div>
+    <div class="twobtn">
+      <button class="btn" id="hb" onclick="event.stopPropagation();here()">أنا عند نقطة التجمع</button>
+      <button class="btn g" onclick="event.stopPropagation();go('id')">بطاقتي للمسح</button>
+    </div>
+  </div>
+
+  <div class="c" style="border-color:#EEC9C9;background:var(--bad-l)" onclick="go('docs')">
+    <div class="rw"><div><div class="t" style="font-size:15.5px;font-weight:600">ينقصك التقرير الطبي</div>
+      <div class="d" style="font-size:13px;color:var(--mute);margin-top:4px">٣ من ٤ مستندات مقبولة</div></div>
+      <span class="go" style="color:var(--bad);font-weight:600;font-size:13px">رفع ›</span></div>
+  </div>
+
+  <div class="mini">
+    <div class="mn hot" onclick="go('quiz')"><div class="k">مسابقة مفتوحة · ٨ د</div>
+      <div class="t">أسئلة قبل عرفة<br><span style="font-weight:500;color:var(--mute);font-size:12.5px">مركزك ٣</span></div></div>
+    <div class="mn" onclick="go('vid')"><div class="k">فيديو اليوم</div>
+      <div class="t">قبل الوقوف بعرفة<br><span style="font-weight:500;color:var(--mute);font-size:12.5px">٤:٢٥ · محمّل</span></div></div>
+  </div>
+  <p class="mt">آخر مزامنة ٣:١٢ · يعمل دون إنترنت</p>`},
+
+dhikr:()=>`${bk()}
+  <div class="chipsrow">
+    <button class="chip on" onclick="vf(this,'m')">أذكار الصباح</button>
+    <button class="chip" onclick="vf(this,'e')">أذكار المساء</button>
+    <button class="chip" onclick="vf(this,'s')">أذكار الصلاة</button>
+    <button class="chip" onclick="vf(this,'t')">أذكار الطواف</button>
+  </div>
+  <div class="c"><div class="dh" id="ay">
+    أَصْبَحْنَا وَأَصْبَحَ المُلْكُ لِلَّهِ، وَالحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ
+    <span class="cnt">١ مرة</span></div></div>
+  <div class="c"><div class="dh">
+    سُبْحَانَ اللَّهِ وَبِحَمْدِهِ<span class="cnt">١٠٠ مرة</span></div>
+    <button class="btn g" onclick="cnt(this)">عددت ٠ من ١٠٠</button></div>
+  <div class="c"><div class="dh">
+    اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا<span class="cnt">٣ مرات</span></div></div>
+  <div class="twobtn"><button class="btn g" onclick="fz(2)">تكبير الخط</button>
+    <button class="btn g" onclick="fz(-2)">تصغير</button></div>
+  <p class="mt">تعمل دون إنترنت</p>`,
+
+duas:()=>`${bk()}
+  <div class="chipsrow">
+    <button class="chip on" onclick="vf(this,'h')">أدعية الحج</button>
+    <button class="chip" onclick="vf(this,'a')">عرفة</button>
+    <button class="chip" onclick="vf(this,'t')">الطواف والسعي</button>
+    <button class="chip" onclick="vf(this,'g')">أدعية عامة</button>
+  </div>
+  <div class="c" style="background:var(--gold-l);border-color:#EBDCBB">
+    <div class="rw"><p class="lb" style="color:#7E5E14;margin:0">دعاء أرسلته الإدارة</p><span class="tag a">اليوم</span></div>
+    <div class="dh" id="ay" style="margin-top:8px">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
+  </div>
+  <div class="c"><div class="dh">اللَّهُمَّ اجْعَلْهُ حَجًّا مَبْرُورًا وَسَعْيًا مَشْكُورًا وَذَنْبًا مَغْفُورًا</div></div>
+  <div class="c"><div class="dh">لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ</div></div>
+  <div class="twobtn"><button class="btn g" onclick="fz(2)">تكبير الخط</button>
+    <button class="btn g" onclick="toast('حُفظ في المفضلة')">حفظ</button></div>
+  <p class="mt">تعمل دون إنترنت</p>`,
+
+pay:()=>`${bk()}
+  <div class="c"><div class="ring">${ring(70,'#2E7D5B')}
+    <div><div class="t">سداد تكاليف الحملة</div><div class="d">دفعت ١٤٬٠٠٠ من ٢٠٬٠٠٠ ريال</div></div></div></div>
+  <div class="c flat">
+    <div class="it"><span class="ic g">${IC.money}</span><div><div class="t">الدفعة الأولى</div><div class="d">٨٬٠٠٠ ريال · ٢ ذو القعدة</div></div><span class="go" style="color:var(--ok)">مسددة</span></div>
+    <div class="it"><span class="ic g">${IC.money}</span><div><div class="t">الدفعة الثانية</div><div class="d">٦٬٠٠٠ ريال · ٢٠ ذو القعدة</div></div><span class="go" style="color:var(--ok)">مسددة</span></div>
+    <div class="it"><span class="ic a">${IC.money}</span><div><div class="t">الدفعة الثالثة</div><div class="d">٦٬٠٠٠ ريال · تستحق ٢٠ ذو الحجة</div></div><span class="go" style="color:#7E5E14">متبقية</span></div>
+  </div>
+  <button class="btn g" onclick="toast('سيُرسل الإيصال على بريدك')">طلب إيصال</button>
+  <p class="mt">للاستفسار راجع إدارة الحملة</p>`,
+
+complaints:()=>`${bk()}
+  <div class="sh"><h3>طلباتك وشكاواك</h3><em>٢</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic g">${IC.doc}</span><div><div class="t">طلب وجبة خاصة — حمية سكري</div><div class="d">أُغلق · تم التنفيذ</div></div><span class="go" style="color:var(--ok)">منجز</span></div>
+    <div class="it"><span class="ic a">${IC.doc}</span><div><div class="t">تكييف الغرفة ٣١٢</div><div class="d">قيد المعالجة · المسؤول: أبو ماجد</div></div><span class="go" style="color:#7E5E14">مفتوح</span></div>
+  </div>
+  <div class="sh"><h3>طلب جديد</h3><em></em></div>
+  <div class="chipsrow">
+    <button class="chip on" onclick="vf(this,'s')">السكن</button>
+    <button class="chip" onclick="vf(this,'f')">الطعام</button>
+    <button class="chip" onclick="vf(this,'t')">النقل</button>
+    <button class="chip" onclick="vf(this,'m')">صحي</button>
+    <button class="chip" onclick="vf(this,'o')">أخرى</button>
+  </div>
+  <div class="cbar" style="border:0;padding:0">
+    <input id="ci2" placeholder="اكتب طلبك…">
+    <button onclick="toast('أُرسل طلبك — رقم المتابعة ٤١٢')">${IC.send}</button>
+  </div>
+  <p class="mt">يصلك إشعار عند تغيّر الحالة</p>`,
+
+checklist:()=>`${bk()}
+  <div class="c"><div class="ring">${ring(60,'#B48A3C')}
+    <div><div class="t">تجهيزاتك</div><div class="d">٦ من ١٠ جاهزة</div></div></div></div>
+  <div class="c flat" id="ck">
+    ${['الإحرام ومستلزماته','نعال مريحة','مظلة شمسية','زجاجة ماء','الأدوية الشخصية','شاحن متنقل']
+      .map(x=>`<div class="it"><span class="ic g">${IC.doc}</span><div><div class="t">${x}</div></div><span class="go" style="color:var(--ok)">✓</span></div>`).join('')}
+    ${['كريم واقٍ من الشمس','مناديل مبللة','حقيبة صغيرة للطواف','نسخة ورقية من الجواز']
+      .map(x=>`<div class="it" onclick="tick2(this)"><span class="ic n">${IC.doc}</span><div><div class="t">${x}</div></div><span class="go">تحديد</span></div>`).join('')}
+  </div>
+  <p class="mt">جهّزها قبل السفر · القائمة من إدارة الحملة</p>`,
+
+me:()=>`
+  <div class="prof">
+    <div class="pic">ع</div>
+    <div class="nm">عبدالله محمد الكواري</div>
+    <div class="sb2">عضوية ١٤٤٧-٠٣٢٨ · باص ٧ · حملة الحمادي</div>
+    <div class="twobtn" style="margin-top:14px">
+      <button class="btn" style="background:#fff;color:var(--brand)" onclick="go('id')">بطاقتي للمسح</button>
+      <button class="btn" style="background:rgba(255,255,255,.16)" onclick="toast('فتح تعديل البيانات')">تعديل البيانات</button>
+    </div>
+  </div>
+
+  <div class="sh"><h3>بياناتي</h3><em>تظهر للمشرف عند الحاجة</em></div>
+  <div class="c">
+    <div class="kv"><span class="k2">رقم الهوية</span><span class="v2">٢٨٦٣٤٠٠١١٢٩</span></div>
+    <div class="kv"><span class="k2">الجنسية</span><span class="v2">قطري</span></div>
+    <div class="kv"><span class="k2">تاريخ الميلاد</span><span class="v2">١٣٧٨/٠٤/١٢ هـ</span></div>
+    <div class="kv"><span class="k2">الجوال</span><span class="v2">٥٠٩٠ ١٢٩٧ ٩٧٤+</span></div>
+    <div class="kv"><span class="k2">فصيلة الدم</span><span class="v2">O+</span></div>
+    <div class="kv"><span class="k2">جهة اتصال الطوارئ</span><span class="v2">فهد الكواري · ٣٣٢٢ ٤٤٠٠</span></div>
+    <div class="kv"><span class="k2">حالة صحية</span><span class="v2">سكري — أنسولين</span></div>
+  </div>
+
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.card}</span><div><div class="t">حساب والدك محمد</div><div class="d">مفوَّض لك · باص ٧ · غرفة ٣١٢</div></div><span class="go" onclick="toast('تم التبديل لحساب محمد')">تبديل</span></div>
+  </div>
+
+  <div class="sh"><h3>ملفاتي وماليتي</h3><em></em></div>
+  <div class="c flat">
+    <div class="it" onclick="go('docs')"><span class="ic r">${IC.doc}</span><div><div class="t">مستنداتي</div><div class="d">٣ من ٤ مقبولة · ناقص التقرير الطبي</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('pay')"><span class="ic g">${IC.money}</span><div><div class="t">المدفوعات</div><div class="d">متبقٍ ٦٬٠٠٠ ريال</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('checklist')"><span class="ic a">${IC.list}</span><div><div class="t">قائمة التجهيزات</div><div class="d">٦ من ١٠ جاهزة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('complaints')"><span class="ic a">${IC.doc}</span><div><div class="t">الشكاوى والطلبات</div><div class="d">طلب واحد قيد المعالجة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('inbox')"><span class="ic r">${IC.bell}</span><div><div class="t">الإشعارات</div><div class="d">٣ جديدة</div></div><span class="go">›</span></div>
+  </div>
+
+  <div class="sh"><h3>الإعدادات</h3><em></em></div>
+  <div class="c flat">
+    <div class="it" onclick="go('settings')"><span class="ic">${IC.list}</span><div><div class="t">إعدادات التطبيق</div><div class="d">الخط · اللغة · التنبيهات · التحميلات</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('camp')"><span class="ic a">${IC.home}</span><div><div class="t">عن الحملة</div><div class="d">أرقام التواصل والمقر</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('support')"><span class="ic g">${IC.chat}</span><div><div class="t">الدعم والآراء</div><div class="d">تقييم التطبيق والإبلاغ عن مشكلة</div></div><span class="go">›</span></div>
+  </div>
+
+  <button class="btn g" style="color:var(--bad)" onclick="toast('تم تسجيل الخروج')">تسجيل الخروج</button>
+  <p class="mt">الإصدار ١٫٠ · حملة الحمادي ١٤٤٧</p>`,
+
+settings:()=>`<button class="bk" onclick="go('me')">› حسابي</button>
+  <div class="sh"><h3>العرض</h3><em></em></div>
+  <div class="c">
+    <div class="kv"><span class="k2">حجم الخط</span><span class="v2" id="fsv">كبير</span></div>
+    <div class="twobtn" style="margin-top:4px">
+      <button class="btn g" onclick="fz(2)">أكبر</button>
+      <button class="btn g" onclick="fz(-2)">أصغر</button></div>
+  </div>
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.quran}</span><div><div class="t">اللغة</div></div><span class="go">العربية</span></div>
+    <div class="it" onclick="sw(this)"><span class="ic n">${IC.clock}</span><div><div class="t">الوضع الليلي</div><div class="d">يريح العين في المخيم</div></div><span class="sw"></span></div>
+  </div>
+
+  <div class="sh"><h3>تنبيه الصلاة</h3><em>لكل صلاة على حدة</em></div>
+  <div class="c flat">
+    ${PRAY.map((p,i)=>`<div class="it" onclick="sw(this)"><span class="ic ${i<3?'a':'n'}">${IC.clock}</span>
+      <div><div class="t">${p[0]}</div><div class="d">${i<3?'أذان':'تنبيه صامت'}</div></div>
+      <span class="sw ${i<3?'on':''}"></span></div>`).join('')}
+  </div>
+
+  <div class="sh"><h3>التحميلات</h3><em>للعمل دون إنترنت</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic g">${IC.quran}</span><div><div class="t">القرآن والأذكار والأدعية</div><div class="d">مدمجة · ١٢ م.ب</div></div><span class="go" style="color:var(--ok)">جاهزة</span></div>
+    <div class="it"><span class="ic a">${IC.vid}</span><div><div class="t">فيديوهات المناسك</div><div class="d">٣ من ٥ محمّلة · ٨٤ م.ب</div></div><span class="go" onclick="toast('جارٍ تحميل الباقي')">تحميل</span></div>
+    <div class="it" onclick="sw(this)"><span class="ic n">${IC.vid}</span><div><div class="t">التحميل على بيانات الجوال</div><div class="d">مُغلق · واي فاي فقط</div></div><span class="sw"></span></div>
+  </div>
+
+  <div class="sh"><h3>الخصوصية</h3><em></em></div>
+  <div class="c flat">
+    <div class="it" onclick="sw(this)"><span class="ic">${IC.comp}</span><div><div class="t">مشاركة موقعي عند الاستغاثة</div><div class="d">يُرسل موقعك للقائد عند الضغط على نجدة فقط</div></div><span class="sw on"></span></div>
+  </div>
+  <p class="mt">لا يُجمع موقعك خارج حالة الاستغاثة</p>`,
+
+camp:()=>`<button class="bk" onclick="go('me')">› حسابي</button>
+  <div class="prof" style="padding:24px 20px">
+    <img src="LOGOW" style="width:62px;height:62px;margin:0 auto 10px;display:block">
+    <div class="nm">حملة الحمادي للحج والعمرة</div>
+    <div class="sb2">موسم ١٤٤٧ هـ · ٣٢٠ حاجاً · ٧ باصات</div>
+  </div>
+  <div class="sh"><h3>التواصل</h3><em>اضغط للاتصال</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.bus}</span><div><div class="t">قائد باصك — سعد العتيبي</div><div class="d">باص ٧</div></div><span class="go" style="color:var(--brand)">اتصال</span></div>
+    <div class="it"><span class="ic">${IC.home}</span><div><div class="t">مركز الحملة بمكة</div><div class="d">٤٤٠٠ ٣٣٢٢ ٩٦٦+ · ٢٤ ساعة</div></div><span class="go" style="color:var(--brand)">اتصال</span></div>
+    <div class="it"><span class="ic">${IC.home}</span><div><div class="t">مكتب الدوحة</div><div class="d">٥٠٩٠ ١٢٩٧ ٩٧٤+ · ٨ص — ٤م</div></div><span class="go" style="color:var(--brand)">اتصال</span></div>
+    <div class="it"><span class="ic g">${IC.chat}</span><div><div class="t">واتساب الحملة</div><div class="d">للاستفسارات العامة</div></div><span class="go" style="color:var(--ok)">فتح</span></div>
+  </div>
+  <div class="sh"><h3>المقر</h3><em></em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic a">${IC.home}</span><div><div class="t">مخيم الحملة — منى</div><div class="d">المنطقة ٣ · مخيم ١٤</div></div><span class="go">خريطة</span></div>
+    <div class="it"><span class="ic">${IC.home}</span><div><div class="t">فندق دار النور — مكة</div><div class="d">٦٥٠ م من الحرم</div></div><span class="go">خريطة</span></div>
+  </div>
+  <div class="c flat">
+    <div class="it"><span class="ic n">${IC.doc}</span><div><div class="t">شروط الخدمة</div></div><span class="go">›</span></div>
+    <div class="it"><span class="ic n">${IC.doc}</span><div><div class="t">سياسة الخصوصية</div><div class="d">كيف تُحفظ مستنداتك</div></div><span class="go">›</span></div>
+  </div>`,
+
+support:()=>`<button class="bk" onclick="go('me')">› حسابي</button>
+  <div class="c" style="background:var(--gold-l);border-color:#EBDCBB">
+    <div class="t" style="font-size:16px;font-weight:600">كيف تقيّم التطبيق؟</div>
+    <div class="d" style="font-size:13px;color:#7E5E14;margin-top:5px">رأيك يساعدنا نحسّنه للموسم القادم</div>
+    <div style="display:flex;gap:9px;justify-content:center;margin-top:14px" id="st">
+      ${[1,2,3,4,5].map(i=>`<span onclick="rate(${i})" style="font-size:33px;cursor:pointer;color:#D9CDB0" data-i="${i}">★</span>`).join('')}
+    </div>
+  </div>
+  <div class="sh"><h3>أرسل رأيك</h3><em></em></div>
+  <div class="chipsrow">
+    <button class="chip on" onclick="vf(this,'i')">اقتراح</button>
+    <button class="chip" onclick="vf(this,'p')">مشكلة تقنية</button>
+    <button class="chip" onclick="vf(this,'c')">شكوى</button>
+    <button class="chip" onclick="vf(this,'t')">شكر</button>
+  </div>
+  <div class="cbar" style="border:0;padding:0">
+    <input id="ci3" placeholder="اكتب رأيك…">
+    <button onclick="toast('وصلنا رأيك — شكراً لك')">${IC.send}</button>
+  </div>
+  <div class="sh"><h3>الأسئلة الشائعة</h3><em>٨</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">كيف أرفع مستنداتي؟</div></div><span class="go">›</span></div>
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">نسيت رقم عضويتي</div></div><span class="go">›</span></div>
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">التطبيق لا يعمل بدون إنترنت</div></div><span class="go">›</span></div>
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">كيف أغيّر باصي؟</div></div><span class="go">›</span></div>
+  </div>
+  <button class="btn g" onclick="toast('أُرسل تقرير المشكلة مع سجل التطبيق')">الإبلاغ عن مشكلة تقنية</button>
+  <p class="mt">الإصدار ١٫٠ · آخر تحديث اليوم</p>`,
+
+act:()=>`
+  <div class="sh"><h3>الأنشطة</h3><em>المسابقات والفيديوهات</em></div>
+  <div class="c" style="border-color:var(--brand-b);background:var(--brand-l)" onclick="go('quiz')">
+    <div class="rw"><p class="lb" style="margin:0;color:var(--brand)">مسابقة مفتوحة الآن</p><span class="tag r">تغلق بعد ٨ د</span></div>
+    <div class="vl" style="font-size:21px;margin-top:6px">أسئلة قبل التوجه لعرفة</div>
+    <div class="vs">شارك ٨٤ من باصك · مركزك الثالث</div>
+    <button class="btn" style="margin-top:12px" onclick="event.stopPropagation();go('quiz')">ادخل المسابقة</button>
+  </div>
+  <div class="mini">
+    <div class="mn" onclick="go('quiz')"><div class="k">ترتيبك في الموسم</div>
+      <div class="t">المركز ٩<br><span style="font-weight:500;color:var(--mute);font-size:12.5px">٢٬٦١٠ نقطة</span></div></div>
+    <div class="mn" onclick="go('quiz')"><div class="k">المسابقات القادمة</div>
+      <div class="t">٣ مسابقات<br><span style="font-weight:500;color:var(--mute);font-size:12.5px">أقربها غداً ٦ ص</span></div></div>
+  </div>
+  <div class="c flat">
+    <div class="it" onclick="go('quiz')"><span class="ic a">${IC.quiz}</span><div><div class="t">كل المسابقات</div><div class="d">المفتوحة والقادمة والترتيب</div></div><span class="go">›</span></div>
+  </div>
+
+  <div class="sh"><h3>الفيديوهات</h3><em>١٧ مقطعاً</em></div>
+  <div class="vcard" onclick="go('vid')">
+    <div class="thumb g"><div class="play"></div><span class="dur">بقي ١:٤٠</span>
+      <div style="position:absolute;bottom:0;inset-inline:0;height:4px;background:#ffffff40">
+        <div style="width:62%;height:100%;background:#fff"></div></div></div>
+    <div class="vmeta"><div class="t">تابع ما بدأته · طواف القدوم</div><div class="d">شاهدت ٦٢٪ · محمّل</div></div>
+  </div>
+  <div class="c flat">
+    <div class="it" onclick="go('vid')"><span class="ic">${IC.vid}</span><div><div class="t">فيديو كل منسك</div><div class="d">٥ مقاطع · ٣ محمّلة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('vid')"><span class="ic a">${IC.vid}</span><div><div class="t">خاطرة اليوم</div><div class="d">التلبية ومعناها · ٣:٢٠</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('vid')"><span class="ic n">${IC.vid}</span><div><div class="t">المحاضرات</div><div class="d">١٢ محاضرة مسجلة</div></div><span class="go">›</span></div>
+  </div>
+  <p class="mt">حمّل المقاطع قبل السفر · الشبكة ضعيفة في منى وعرفات</p>`,
+
+/* ---------- المسابقات ---------- */
+quiz:()=>`
+  <div class="hero">
+    <div class="rw"><p class="lb">مسابقة مفتوحة الآن</p><span class="tag w">تغلق بعد ٨ د</span></div>
+    <div class="vl" style="font-size:24px">أسئلة قبل التوجه لعرفة</div>
+    <div class="vs">١٠ أسئلة · شارك ٨٤ من باصك</div>
+  </div>
+  <div class="rw" style="margin:0 3px 9px"><span class="lb" style="margin:0">سؤال ٣ من ١٠</span>
+    <span class="tag a">الأسرع يكسب أكثر</span></div>
+  <div class="tmr" style="margin-bottom:16px"><i id="qt" style="width:100%"></i></div>
+  <div class="c">
+    <div class="q">كم عدد أشواط طواف الإفاضة؟</div>
+    <button class="op" onclick="ans(this,0)"><span>أ</span>ثلاثة أشواط</button>
+    <button class="op" onclick="ans(this,0)"><span>ب</span>خمسة أشواط</button>
+    <button class="op" onclick="ans(this,1)"><span>ج</span>سبعة أشواط</button>
+    <button class="op" style="margin-bottom:0" onclick="ans(this,0)"><span>د</span>تسعة أشواط</button>
+  </div>
+  <div class="sh"><h3>ترتيب باصك</h3><em>باص ٧</em></div>
+  <div class="c flat">
+    <div class="rk"><span class="p one">١</span><div><div class="t">خالد المري</div></div><span class="s">٨٤٠</span></div>
+    <div class="rk"><span class="p">٢</span><div><div class="t">يوسف الهاجري</div></div><span class="s">٧٩٠</span></div>
+    <div class="rk me"><span class="p">٣</span><div><div class="t">أنت</div></div><span class="s" id="sc3">٧٦٥</span></div>
+  </div>
+  <div class="sh"><h3>المسابقات القادمة</h3><em>٣</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic a">${IC.quiz}</span><div><div class="t">قبل رمي الجمرات</div><div class="d">غداً ٦:٠٠ ص · في الباص</div></div><span class="go">١٠ أسئلة</span></div>
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">ثقافة دينية عامة</div><div class="d">الخميس ٩:٠٠ م</div></div><span class="go">١٥ سؤالاً</span></div>
+    <div class="it"><span class="ic n">${IC.quiz}</span><div><div class="t">قبل طواف الوداع</div><div class="d">السبت ٥:٠٠ ص</div></div><span class="go">٨ أسئلة</span></div>
+  </div>
+  <div class="sh"><h3>ترتيب الموسم</h3><em>كل الحملة</em></div>
+  <div class="c flat">
+    <div class="rk"><span class="p one">١</span><div><div class="t">فهد الدوسري</div><div class="d">باص ٣ · ٦ مسابقات</div></div><span class="s">٤٬٢١٠</span></div>
+    <div class="rk"><span class="p">٢</span><div><div class="t">خالد المري</div><div class="d">باص ٧ · ٦ مسابقات</div></div><span class="s">٣٬٩٨٠</span></div>
+    <div class="rk"><span class="p">٣</span><div><div class="t">سلطان العلي</div><div class="d">باص ١ · ٥ مسابقات</div></div><span class="s">٣٬٤٤٠</span></div>
+    <div class="rk me"><span class="p">٩</span><div><div class="t">أنت</div><div class="d">باص ٧ · ٤ مسابقات</div></div><span class="s">٢٬٦١٠</span></div>
+  </div>
+  <p class="mt">المشاركة اختيارية · من فاتته مسابقة لا تُحتسب له</p>`,
+
+/* ---------- الفيديوهات ---------- */
+vid:()=>`
+  <div class="chipsrow">
+    <button class="chip on" onclick="vf(this,'all')">الكل</button>
+    <button class="chip" onclick="vf(this,'rite')">المناسك</button>
+    <button class="chip" onclick="vf(this,'kh')">الخاطرة</button>
+    <button class="chip" onclick="vf(this,'lec')">المحاضرات</button>
+  </div>
+
+
+  <div class="sh"><h3>تابع ما بدأته</h3><em>١</em></div>
+  <div class="vcard">
+    <div class="thumb g"><div class="play"></div><span class="dur">بقي ١:٤٠</span>
+      <div style="position:absolute;bottom:0;inset-inline:0;height:4px;background:#ffffff40">
+        <div style="width:62%;height:100%;background:#fff"></div></div></div>
+    <div class="vmeta"><div class="t">٢ · طواف القدوم — الشرح الكامل</div>
+      <div class="d">شاهدت ٦٢٪ · محمّل</div></div>
+  </div>
+
+  <div class="sh"><h3>فيديو كل منسك</h3><em>٥</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic g">${IC.vid}</span><div><div class="t">١ · الإحرام</div><div class="d">٢:١٠ · محمّل · شوهد</div></div><span class="go">تشغيل</span></div>
+    <div class="it"><span class="ic g">${IC.vid}</span><div><div class="t">٢ · طواف القدوم</div><div class="d">٣:٤٠ · محمّل · ٦٢٪</div></div><span class="go">متابعة</span></div>
+    <div class="it"><span class="ic a">${IC.vid}</span><div><div class="t">٣ · الوقوف بعرفة</div><div class="d">٤:٢٥ · يُفتح غداً ٤ فجراً</div></div><span class="go">محمّل</span></div>
+    <div class="it"><span class="ic n">${IC.vid}</span><div><div class="t">٤ · المبيت بمزدلفة</div><div class="d">٢:٥٠</div></div><span class="go" onclick="toast('جارٍ التحميل للمشاهدة دون إنترنت')">تحميل</span></div>
+    <div class="it"><span class="ic n">${IC.vid}</span><div><div class="t">٥ · رمي الجمرات</div><div class="d">٣:١٥</div></div><span class="go" onclick="toast('جارٍ التحميل للمشاهدة دون إنترنت')">تحميل</span></div>
+  </div>
+
+  <div class="sh"><h3>خاطرة اليوم</h3><em>يومياً بعد الفجر</em></div>
+  <div class="vcard">
+    <div class="thumb o"><div class="play"></div><span class="dur">٣:٢٠</span></div>
+    <div class="vmeta"><div class="t">التلبية ومعناها</div><div class="d">الشيخ عبدالرحمن اليوسف · صوت</div></div>
+  </div>
+
+  <div class="sh"><h3>المحاضرات</h3><em>١٢ مسجلة</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.vid}</span><div><div class="t">آداب الحرم</div><div class="d">١٨:٤٠ · الشيخ اليوسف</div></div><span class="go">تشغيل</span></div>
+    <div class="it"><span class="ic">${IC.vid}</span><div><div class="t">أخطاء شائعة في الطواف</div><div class="d">١٢:١٥</div></div><span class="go">تشغيل</span></div>
+    <div class="it"><span class="ic">${IC.vid}</span><div><div class="t">فضل العشر من ذي الحجة</div><div class="d">٢٢:٠٥</div></div><span class="go">تشغيل</span></div>
+  </div>
+  <div style="display:flex;gap:9px;margin-top:4px">
+    <button class="btn g" onclick="toast('سيُشغَّل الصوت فقط لتوفير البيانات')">الصوت فقط</button>
+    <button class="btn g" onclick="toast('جارٍ تحميل الكل للمشاهدة دون إنترنت')">تحميل الكل</button>
+  </div>
+  <p class="mt">حمّل المقاطع قبل السفر · الشبكة ضعيفة في منى وعرفات</p>`,
+
+/* ---------- المجموعات ---------- */
+groups:()=>`${bk()}
+  <div class="sh"><h3>مجموعات التواصل</h3><em>٣</em></div>
+  <div class="c flat">
+    <div class="it" onclick="oc('bus')"><span class="ic">${IC.chat}</span>
+      <div><div class="t">مجموعة باص ٧</div><div class="d">سعد العتيبي: لا تنسون المظلة والماء</div></div>
+      <span class="go"><span class="tag r">٢</span></span></div>
+    <div class="it" onclick="oc('camp')"><span class="ic a">${IC.bell}</span>
+      <div><div class="t">مجموعة الحملة العامة</div><div class="d">إدارة الحملة: التوجه لعرفة غداً...</div></div>
+      <span class="go">١:٢٠ م</span></div>
+    <div class="it" onclick="oc('room')"><span class="ic n">${IC.home}</span>
+      <div><div class="t">مجموعة غرفة ٣١٢</div><div class="d">محمد الكواري: أنا بالحرم، بأتأخر شوي</div></div>
+      <span class="go">٣:٠٢ م</span></div>
+  </div>
+  <p class="mt">مجموعة باصك خاصة بأعضائه · القائد وحده يرسل في العامة</p>`,
+
+chat:()=>{const c=CHATS[openChat];return`
+  <button class="bk" onclick="go('groups')">› المجموعات</button>
+  <div class="c" style="padding:12px 14px;margin-bottom:8px">
+    <div class="rw"><div><div class="t" style="font-size:16px;font-weight:600">${c.name}</div>
+      <div class="d" style="font-size:12.5px;color:var(--mute);margin-top:3px">${c.sub}</div></div>
+      <span class="tag g">متصل</span></div>
+  </div>
+  <div class="chat" id="ch">${c.msgs.map(m=>mg(m)).join('')}</div>
+  <div class="cbar">
+    <input id="ci" placeholder="اكتب رسالة…" onkeydown="if(event.key==='Enter')snd()">
+    <button onclick="snd()">${IC.send}</button>
+  </div>`},
+
+/* ---------- باقي الشاشات ---------- */
+id:()=>`${bk()}
+  <div class="pass">
+    <img src="${'LOGOW'}" alt="">
+    <div class="nm">عبدالله محمد الكواري</div>
+    <div class="mt">عضوية ١٤٤٧-٠٣٢٨ · باص ٧</div>
+    <div class="qr">${qr()}</div>
+    <div class="mt">يُمسح عند الصعود ودخول المخيم</div>
+  </div>
+  <div class="c flat" style="margin-top:11px">
+    <div class="it"><span class="ic">${IC.bus}</span><div><div class="t">سعد العتيبي</div><div class="d">قائد الباص</div></div><span class="go">اتصال</span></div>
+    <div class="it"><span class="ic">${IC.home}</span><div><div class="t">دار النور — غرفة ٣١٢</div><div class="d">الدور الثالث · مكة</div></div><span class="go">›</span></div>
+  </div>
+  <p class="mt">تعمل دون إنترنت</p>`,
+
+bus:()=>`${bk()}
+  <div class="hero">
+    <div class="rw"><p class="lb">باص ٧ · التوجه إلى منى</p><span class="tag w">اليوم</span></div>
+    <div class="vl">٤:٣٠ عصراً</div>
+    <div class="vs">البوابة الشمالية — دار النور · تنبيه قبل ١٥ دقيقة</div>
+  </div>
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.bus}</span><div><div class="t">سعد العتيبي</div><div class="d">قائد الباص</div></div><span class="go">اتصال</span></div>
+    <div class="it" onclick="oc('bus')"><span class="ic">${IC.chat}</span><div><div class="t">مجموعة باص ٧</div><div class="d">٢ رسائل جديدة</div></div><span class="go">فتح</span></div>
+    <div class="it"><span class="ic">${IC.card}</span><div><div class="t">محمد الكواري</div><div class="d">والدك · مرافقك · مقعد ١٢</div></div><span class="go">›</span></div>
+  </div>
+  <div class="sh"><h3>رسائل القائد</h3><em>باص ٧</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic a">${IC.bell}</span><div><div class="t">التحرك بعد ١٠ دقائق</div><div class="d">٤:٢٠ عصراً</div></div></div>
+    <div class="it"><span class="ic n">${IC.bell}</span><div><div class="t">تغيّرت نقطة التجمع</div><div class="d">٢:٠٥ ظهراً</div></div></div>
+  </div>`,
+
+today:()=>`${bk()}
+  <div class="sh"><h3>الأربعاء ١٢ ذو الحجة</h3><em>٤ محطات</em></div>
+  <div class="c"><div class="tl">
+    <div class="n done"><div class="t">الفجر في الحرم</div><div class="d">٤:٤٠ · حضرت</div></div>
+    <div class="n done"><div class="t">إفطار المخيم</div><div class="d">٦:٣٠ · حضرت</div></div>
+    <div class="n now"><div class="t">التوجه إلى منى</div><div class="d">٤:٣٠ · تجمع باص ٧ البوابة الشمالية</div></div>
+    <div class="n"><div class="t">درس المساء: فضل يوم عرفة</div><div class="d">٨:٠٠ مساءً · مخيم الحملة</div></div>
+  </div></div>`,
+
+rites:()=>`${bk()}
+  <div class="c"><div class="ring">${ring(40,'#7C1D3F')}
+    <div><div class="t">تقدّمك في المناسك</div><div class="d">أتممت ٢ من ٥</div></div></div></div>
+  <div class="c"><div class="tl">
+    <div class="n done"><div class="t">١ · الإحرام</div><div class="d">فيديو ٢:١٠ · شوهد</div></div>
+    <div class="n done"><div class="t">٢ · طواف القدوم</div><div class="d">فيديو ٣:٤٠ · ٦٢٪</div></div>
+    <div class="n now"><div class="t">٣ · الوقوف بعرفة</div><div class="d">يُفتح الفيديو غداً ٤ فجراً</div></div>
+    <div class="n"><div class="t">٤ · المبيت بمزدلفة</div><div class="d">فيديو ٢:٥٠</div></div>
+    <div class="n"><div class="t">٥ · رمي الجمرات</div><div class="d">فيديو ٣:١٥</div></div>
+  </div></div>
+  <button class="btn g" onclick="go('vid')">فتح مكتبة الفيديو</button>`,
+
+quran:()=>`${bk()}
+  <div class="c" style="text-align:center;padding:12px;background:var(--brand-l);border-color:var(--brand-b)">
+    <div style="font-size:17px;font-weight:700;color:var(--brand)">سُورَةُ الحَجّ · الجزء ١٧</div></div>
+  <div class="c"><div class="ayah" id="ay">
+    يَٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُواْ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ <b>١</b>
+    يَوْمَ تَرَوْنَهَا تَذْهَلُ كُلُّ مُرْضِعَةٍ عَمَّآ أَرْضَعَتْ <b>٢</b></div></div>
+  <div style="display:flex;gap:10px">
+    <button class="btn g" onclick="fz(2)">تكبير الخط</button>
+    <button class="btn g" onclick="fz(-2)">تصغير</button></div>
+  <p class="mt">مدمج في التطبيق · قراءة فقط · دون إنترنت</p>`,
+
+pray:()=>`${bk()}
+  <div class="hero"><p class="lb">الصلاة القادمة</p>
+    <div class="vl">العصر · ٣:٢٨</div><div class="vs" id="cd">—</div></div>
+  <div class="c flat">
+    ${PRAY.map(p=>`<div class="it"><span class="ic ${p[0]==='العصر'?'a':'n'}">${IC.clock}</span>
+      <div><div class="t">${p[0]}</div></div><span class="go">${ar(p[1]>12?p[1]-12:p[1])}:${ar(String(p[2]).padStart(2,'0'))}</span></div>`).join('')}
+  </div>
+  <p class="mt">تُحسب على جهازك وتتحدث عند الانتقال لمنى وعرفات</p>`,
+
+qibla:()=>`${bk()}
+  <div class="c" style="text-align:center;padding:24px 16px">
+    <p class="lb">اتجاه القبلة</p>
+    <svg viewBox="0 0 220 220" style="width:198px;height:198px;margin:8px auto;display:block">
+      <circle cx="110" cy="110" r="98" fill="#FCFAFB" stroke="var(--line)" stroke-width="2"/>
+      ${Array.from({length:60},(_,i)=>{const a=i*6*Math.PI/180,m=i%5===0;
+        return `<line x1="${110+Math.sin(a)*(m?84:90)}" y1="${110-Math.cos(a)*(m?84:90)}" x2="${110+Math.sin(a)*96}" y2="${110-Math.cos(a)*96}" stroke="${m?'#A79BA0':'#E6E1E3'}" stroke-width="${m?1.6:1}"/>`}).join('')}
+      <g id="nd" style="transform-origin:110px 110px;transition:transform .5s cubic-bezier(.25,1.2,.4,1)">
+        <path d="M110 30 L126 126 L110 114 L94 126 Z" fill="#7C1D3F"/>
+        <path d="M110 114 L126 126 L110 188 L94 126 Z" fill="#E4DCDF"/></g>
+      <circle cx="110" cy="110" r="6" fill="#fff" stroke="#7C1D3F" stroke-width="2.5"/>
+    </svg>
+    <div class="vl">٢٩٣° غرباً</div><div class="vs">٦٥٠ متراً إلى الكعبة</div>
+    <button class="btn g" style="margin-top:14px" onclick="spin()">معايرة البوصلة</button></div>`,
+
+trip:()=>`
+  <div class="sh"><h3>رحلتي</h3><em>موسم ١٤٤٧</em></div>
+  <div class="c"><div class="ring">${ring(89,'#2E7D5B')}
+    <div><div class="t">حضورك</div><div class="d">٨ من ٩ تحركات · آخرها ٦:٣٠</div></div></div></div>
+  <div class="c flat">
+    <div class="it" onclick="go('today')"><span class="ic a">${IC.day}</span><div><div class="t">جدول اليوم</div><div class="d">تحرك واحد متبقٍ · ٤:٣٠</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('prog')"><span class="ic">${IC.list}</span><div><div class="t">برنامج الموسم</div><div class="d">١١ محطة · من ٨ إلى ١٨ ذو الحجة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('bus')"><span class="ic">${IC.bus}</span><div><div class="t">باصي ومجموعتي</div><div class="d">باص ٧ · ٤٨ عضواً</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('groups')"><span class="ic">${IC.chat}</span><div><div class="t">مجموعات التواصل</div><div class="d">٢ رسائل جديدة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('house')"><span class="ic">${IC.home}</span><div><div class="t">سكني</div><div class="d">دار النور · غرفة ٣١٢</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('id')"><span class="ic">${IC.card}</span><div><div class="t">بطاقتي وتذاكري</div><div class="d">باركود الحضور والدخول</div></div><span class="go">›</span></div>
+  </div>
+  <p class="mt">كل ما سبق متاح دون إنترنت</p>`,
+
+prog:()=>`${bk()}
+  <div class="sh"><h3>برنامج الموسم</h3><em>١١ محطة</em></div>
+  <div class="c"><div class="tl">
+    <div class="n done"><div class="t">الوصول إلى جدة والانتقال لمكة</div><div class="d">٨ ذو الحجة · تم</div></div>
+    <div class="n done"><div class="t">عمرة التمتع</div><div class="d">٩ ذو الحجة · تم</div></div>
+    <div class="n done"><div class="t">الإحرام من المخيم</div><div class="d">١١ ذو الحجة · تم</div></div>
+    <div class="n now"><div class="t">التوجه إلى منى</div><div class="d">١٢ ذو الحجة ٤:٣٠ عصراً · باص ٧</div></div>
+    <div class="n"><div class="t">الوقوف بعرفة</div><div class="d">١٣ ذو الحجة · التحرك ٤ فجراً</div></div>
+    <div class="n"><div class="t">المبيت بمزدلفة</div><div class="d">١٣ ذو الحجة ليلاً</div></div>
+    <div class="n"><div class="t">رمي جمرة العقبة والحلق</div><div class="d">١٤ ذو الحجة</div></div>
+    <div class="n"><div class="t">طواف الإفاضة</div><div class="d">١٤ ذو الحجة</div></div>
+    <div class="n"><div class="t">أيام التشريق</div><div class="d">١٥ – ١٧ ذو الحجة</div></div>
+    <div class="n"><div class="t">طواف الوداع</div><div class="d">١٨ ذو الحجة</div></div>
+    <div class="n"><div class="t">الانتقال إلى المدينة</div><div class="d">١٨ ذو الحجة · فندق طيبة</div></div>
+  </div></div>
+  <p class="mt">المواعيد تتحدث من إدارة الحملة ويصلك إشعار بالتغيير</p>`,
+
+house:()=>`${bk()}
+  <div class="hero"><div class="rw"><p class="lb">سكنك في مكة</p><span class="tag w">حتى ١٥ ذو الحجة</span></div>
+    <div class="vl">غرفة ٣١٢</div><div class="vs">دار النور · الدور الثالث · ٦٥٠ م من الحرم</div></div>
+  <div class="sh"><h3>زملاء الغرفة</h3><em>٣</em></div>
+  <div class="c flat">
+    <div class="it"><span class="ic">${IC.card}</span><div><div class="t">محمد الكواري</div><div class="d">والدك · مرافقك</div></div></div>
+    <div class="it"><span class="ic n">${IC.card}</span><div><div class="t">خالد المري</div><div class="d">باص ٧</div></div></div>
+    <div class="it"><span class="ic n">${IC.card}</span><div><div class="t">يوسف الهاجري</div><div class="d">باص ٧</div></div></div>
+    <div class="it" onclick="oc('room')"><span class="ic">${IC.chat}</span><div><div class="t">مجموعة الغرفة</div><div class="d">٣ أعضاء</div></div><span class="go">فتح</span></div>
+  </div>
+  <div class="sh"><h3>المدينة المنورة</h3><em>لاحقاً</em></div>
+  <div class="c flat"><div class="it"><span class="ic n">${IC.home}</span><div><div class="t">فندق طيبة · غرفة ٢٠٨</div><div class="d">من ١٥ ذو الحجة</div></div></div></div>`,
+
+docs:()=>`${bk()}
+  <div class="c"><div class="ring">${ring(75,'#B32B33')}
+    <div><div class="t">اكتمال مستنداتك</div><div class="d">٣ مقبولة · ١ ناقص</div></div></div></div>
+  <div class="c flat">
+    <div class="it"><span class="ic g">${IC.doc}</span><div><div class="t">جواز السفر</div><div class="d">مقبول · ٢ ذو القعدة</div></div><span class="go" style="color:var(--ok)">مقبول</span></div>
+    <div class="it"><span class="ic g">${IC.doc}</span><div><div class="t">البطاقة الشخصية</div><div class="d">مقبول</div></div><span class="go" style="color:var(--ok)">مقبول</span></div>
+    <div class="it"><span class="ic g">${IC.doc}</span><div><div class="t">الصورة الشخصية</div><div class="d">مقبول</div></div><span class="go" style="color:var(--ok)">مقبول</span></div>
+    <div class="it"><span class="ic r">${IC.doc}</span><div><div class="t">التقرير الطبي</div><div class="d">لم يُرفع بعد</div></div><span class="go" style="color:var(--bad)">ناقص</span></div>
+  </div>
+  <button class="btn" onclick="toast('فُتحت الكاميرا · صوّر التقرير')">رفع التقرير الطبي</button>
+  <p class="mt">يُحفظ مشفّراً · يراه المسؤول المصرّح له فقط</p>`,
+
+guide:()=>`
+  <div class="sh"><h3>العبادة</h3><em>يعمل كله دون إنترنت</em></div>
+  <div class="c flat">
+    <div class="it" onclick="go('quran')"><span class="ic">${IC.quran}</span><div><div class="t">القرآن الكريم</div><div class="d">آخر موضع: الحج · الجزء ١٧</div></div><span class="go">متابعة</span></div>
+    <div class="it" onclick="go('dhikr')"><span class="ic">${IC.dhikr}</span><div><div class="t">الأذكار</div><div class="d">الصباح والمساء والصلاة والطواف</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('duas')"><span class="ic">${IC.dua}</span><div><div class="t">الأدعية</div><div class="d">دعاء جديد من الإدارة اليوم</div></div><span class="go"><span class="tag a">جديد</span></span></div>
+    <div class="it" onclick="go('pray')"><span class="ic a">${IC.clock}</span><div><div class="t">مواقيت الصلاة</div><div class="d">العصر ٣:٢٨ · مكة</div></div><span class="go">›</span></div>
+    <div class="it" onclick="go('qibla')"><span class="ic">${IC.comp}</span><div><div class="t">القبلة</div><div class="d">٢٩٣° · ٦٥٠ م</div></div><span class="go">›</span></div>
+  </div>
+  <div class="sh"><h3>المناسك</h3><em>٢ من ٥</em></div>
+  <div class="c" onclick="go('rites')">
+    <div class="ring">${ring(40,'#7C1D3F')}
+      <div><div class="t">دليل المناسك خطوة بخطوة</div><div class="d">التالي: الوقوف بعرفة · فيديو ٤:٢٥</div></div>
+      <span class="go" style="margin-inline-start:auto;color:var(--brand);font-weight:600;font-size:13px">فتح ›</span></div>
+  </div>
+  <div class="sh"><h3>خاطرة اليوم</h3><em>بعد الفجر</em></div>
+  <div class="vcard" onclick="go('vid')">
+    <div class="thumb o"><div class="play"></div><span class="dur">٣:٢٠</span></div>
+    <div class="vmeta"><div class="t">التلبية ومعناها</div><div class="d">الشيخ عبدالرحمن اليوسف</div></div>
+  </div>`,
+
+inbox:()=>`${bk()}
+  <div style="display:flex;gap:9px;margin-bottom:12px">
+    <button class="btn" style="padding:12px">إعلانات الحملة</button>
+    <button class="btn g" style="padding:12px" onclick="oc('bus')">باصي</button></div>
+  <div class="c flat">
+    <div class="it"><span class="ic r">${IC.bell}</span><div><div class="t">التوجه لعرفة غداً ٤ فجراً</div><div class="d">إدارة الحملة · قبل ساعة</div></div></div>
+    <div class="it"><span class="ic a">${IC.bell}</span><div><div class="t">درس الليلة ٨:٠٠ في المخيم</div><div class="d">إدارة الحملة · قبل ٣ ساعات</div></div></div>
+    <div class="it"><span class="ic n">${IC.bell}</span><div><div class="t">احرصوا على شرب الماء</div><div class="d">إدارة الحملة · أمس</div></div></div>
+  </div>`,
+
+emg:()=>`${bk()}
+  <div class="c" style="background:var(--bad-l);border-color:#EEC9C9">
+    <p class="lb" style="color:var(--bad)">إن كنت تائهاً · أرِ هذه الشاشة لمن حولك</p>
+    <div class="vl" style="font-size:21px">حملة الحمادي · باص ٧</div>
+    <div class="vs">المشرف سعد العتيبي — ٥٠٩٠ ١٢٩٧ ٩٧٤+<br>عبدالله الكواري · عضوية ١٤٤٧-٠٣٢٨</div>
+  </div>
+  <button class="btn" style="background:var(--bad)" onclick="sos()">إرسال بلاغ نجدة</button>
+  <div class="c flat" style="margin-top:11px">
+    <div class="it"><span class="ic r">${IC.bus}</span><div><div class="t">قائد الباص</div><div class="d">٥٠٩٠ ١٢٩٧ ٩٧٤+</div></div><span class="go" style="color:var(--bad)">اتصال</span></div>
+    <div class="it"><span class="ic r">${IC.home}</span><div><div class="t">مركز الحملة</div><div class="d">٤٤٠٠ ٣٣٢٢ ٩٦٦+</div></div><span class="go" style="color:var(--bad)">اتصال</span></div>
+    <div class="it"><span class="ic r">${IC.sos}</span><div><div class="t">الهلال الأحمر</div><div class="d">٩٩٧</div></div><span class="go" style="color:var(--bad)">اتصال</span></div>
+  </div>`
+};
+
+const mg=m=>`<div class="msg ${m.k}">${m.w?`<div class="who">${m.w}</div>`:''}${m.t}<div class="tm">${m.m}</div></div>`;
+let cur='home',par='home';
+const bk=()=>`<button class="bk" onclick="go('${par}')">› رجوع</button>`;
+const TAB={home:1,trip:1,guide:1,act:1,me:1};
+function go(k){
+  if(TAB[k])par=k;else if(TAB[cur])par=cur;
+  cur=k;const sc=document.getElementById('sc');
+  sc.innerHTML=V[k]().replace(/LOGOW/g,LOGO_W);sc.scrollTop=0;
+  document.querySelectorAll('.nv button').forEach(b=>b.classList.toggle('on',b.dataset.t===par));
+  tick();
+  if(k==='chat'){const c=document.getElementById('ch');if(c)c.scrollIntoView({block:'end'})}
+  if(k==='quiz'){const t=document.getElementById('qt');let w=100;clearInterval(window._q);
+    window._q=setInterval(()=>{w-=1.1;t.style.width=Math.max(0,w)+'%';if(w<=0)clearInterval(window._q)},130)}
+}
+function oc(k){openChat=k;par='trip';go('chat')}
+function snd(){const i=document.getElementById('ci');if(!i||!i.value.trim())return;
+  const now=new Date();const h=now.getHours()%12||12;
+  CHATS[openChat].msgs.push({w:'',t:i.value.trim(),m:`${ar(h)}:${ar(String(now.getMinutes()).padStart(2,'0'))} ${now.getHours()<12?'ص':'م'}`,k:'me'});
+  i.value='';go('chat');const c=document.getElementById('ch');if(c)c.lastElementChild.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function sw(el){const k=el.querySelector('.sw');if(!k)return;k.classList.toggle('on');
+  toast(k.classList.contains('on')?'فُعّل':'أُوقف')}
+function rate(n){document.querySelectorAll('#st span').forEach(s=>{
+  s.style.color=(+s.dataset.i<=n)?'#B48A3C':'#D9CDB0'});toast('شكراً لتقييمك '+ar(n)+' من ٥')}
+function cnt(b){b._n=(b._n||0)+1;b.textContent='عددت '+ar(b._n)+' من ١٠٠';
+  if(b._n>=100){b.textContent='✓ أتممت المئة';b.style.background='#2E7D5B';b.style.color='#fff'}}
+function tick2(el){el.querySelector('.ic').className='ic g';el.querySelector('.go').textContent='✓';
+  el.querySelector('.go').style.color='#2E7D5B';el.onclick=null;toast('تم التحديد')}
+function vf(el,k){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');toast('عُرضت: '+el.textContent)}
+function toast(m){const t=document.getElementById('ts');t.textContent=m;t.classList.add('on');
+  clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('on'),2300)}
+function sos(){toast('أُرسل بلاغك لقائد الباص وإدارة الحملة')}
+function here(){const b=document.getElementById('hb');if(!b)return;
+  b.textContent='✓ سُجّل حضورك — القائد يراك الآن';b.style.background='#2E7D5B';b.onclick=null;
+  toast('سُجّل حضورك عند نقطة التجمع')}
+function fz(d){const a=document.getElementById('ay');
+  if(a){a.style.fontSize=(parseFloat(getComputedStyle(a).fontSize)+d)+'px';return}
+  toast(d>0?'كُبّر حجم النص':'صُغّر حجم النص')}
+function spin(){const n=document.getElementById('nd');if(!n)return;
+  n.style.transform='rotate(-22deg)';setTimeout(()=>n.style.transform='rotate(7deg)',420);
+  setTimeout(()=>n.style.transform='rotate(0deg)',840);toast('تمت المعايرة')}
+function ans(el,ok){document.querySelectorAll('.op').forEach(o=>o.onclick=null);
+  el.classList.add(ok?'ok':'no');
+  if(!ok)document.querySelectorAll('.op')[2].classList.add('ok');
+  clearInterval(window._q);
+  if(ok){document.getElementById('sc3').textContent=ar(860);toast('إجابة صحيحة · ٩٥ نقطة — المركز ٢')}
+  else toast('الإجابة الصحيحة: سبعة أشواط')}
+go('home');
+</script>
+</body>
+</html>
